@@ -10,9 +10,9 @@
  */
 
 
-function wp_excel_cms_get($name){
+function wp_excel_cms_get($name, $sheet=1){
     $excel_data     = new WP_Excel_Cms();
-    return $excel_data->get_excel_data($name);
+    return $excel_data->get_excel_data($name, $sheet);
 }
 
 
@@ -21,10 +21,11 @@ function wp_excel_cms_shortcode( $atts ) {
 	extract( shortcode_atts( array(
 		'name' => '',
         'template' => 'default',
+		'sheet' => 1
 	), $atts ) );
 
     $excel_data     = new WP_Excel_Cms();
-    $data           = $excel_data->get_excel_data($name);
+    $data           = $excel_data->get_excel_data($name, $sheet);
     
     $template = $excel_data->getTemplate($template, $data, $name);
 
@@ -131,58 +132,20 @@ class WP_Excel_Cms {
     }
     
     
-    
 
-  
-    public function get_excel_data($name){
+    public function get_excel_data($name, $sheet=''){
        
-     $file_name = $name.'.json'; 
-     $file_path_name = $this->upload_dir.'/'.$file_name;
-    
-    
-    return json_decode(file_get_contents($file_path_name));
+		$file_name = $name.'.json';
 
-    
+	    if($sheet!=1){
+		    $file_name = $name.'_sheet_'.$sheet.'.json';
+	    }
 
-    $count = count($data);
-    
-     #   $data[0] => Kategorie
-     #   $data[1] => Unterkategorie
-     #   $data[2] => Name
-     #   $data[3] => Preis
-     #   $data[4] => Beschreibung
-     
-    for($i=1;$i<$count;$i++){
-        
-        $catIndex                        = strtolower($this->clean_str($data[$i][0]));
-        $subCatIndex                     = strtolower($this->clean_str($data[$i][1]));
-        
-        if(!empty($catIndex)){
-        
-            $categories[$catIndex]           = $data[$i][0];
-            $subCategories[$subCatIndex]     = $data[$i][1];  
-    
-            $preparedData[$catIndex][$subCatIndex][] = array(
-                    'name'           => $data[$i][2],
-                    'price'          => $data[$i][3],
-                    'description'    => $data[$i][4], 
-            );
-        }
-    }
-    
-       echo '<pre>';
-            print_r($preparedData);
-        echo '</pre>';
-        
+		$file_path_name = $this->upload_dir.'/'.$file_name;
 
-
+		return json_decode(file_get_contents($file_path_name));
         
     }
-    
-
-
-
-
 
 
 	/**

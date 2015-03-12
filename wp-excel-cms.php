@@ -7,21 +7,21 @@
  * @package   Excel_Import
  * @author    Vincent Schroeder <info@webteilchen.de>
  * @license   GPL-2.0+
- * @link      http://webteilchen.de
- * @copyright 2013 Webteilchen
+ * @link      http://twitter.com/v_schroeder
+ * @copyright 2015 Vincent Schroeder
  *
  * @wordpress-plugin
  * Plugin Name:       WP Excel CMS
  * Plugin URI:        http://webteilchen.de
- * Description:       Imports and managages content of Excel (*.xls *.xlsx) Files into Wordpress and make the data available in the theme or shortcodes.
- * Version:           1.0.2
+ * Description:       Imports and manages content of Excel (*.xlsx) files into Wordpress and makes the data available for the theme or shortcodes.
+ * Version:           1.0.3
  * Author:            Vincent Schroeder
- * Author URI:        http://webteilchen.de
+ * Author URI:        http://twitter.com/v_schroeder
  * Text Domain:       wp-excel-cms
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Domain Path:       /languages
- * GitHub Plugin URI: https://github.com/<owner>/<repo>
+ * GitHub Plugin URI: https://github.com/vincentschroeder/wp-excel-cms
  */
 
 // If this file is called directly, abort.

@@ -9,7 +9,7 @@
  * @author    Vincent Schroeder <info@webteilchen.de>
  * @license   GPL-2.0+
  * @link      http://webteilchen.de
- * @copyright 2013 Webteilchen GmbH
+ * @copyright 2015 Vincent Schroeder
  */
 ?>
 
@@ -84,15 +84,11 @@ $j(document).ready(function() {
 
 <div class="wrap">
 
-
-
 	<?php screen_icon('edit-pages'); ?>
 	<h2>
         <?php echo esc_html( get_admin_page_title() ); ?>
         <a href="#" class="add-new-h2 add-new-file">Create new</a>
     </h2>
-
-
 
     <div style="display: none;" id="new-file-uploader">
         <div id="poststuff">
@@ -105,11 +101,11 @@ $j(document).ready(function() {
                                 <table class="form-table" style="width:500px">
                                     <tr>
                                         <td>Name:</td>
-                                        <td><input type="text" name="file_name"/> </td>
+                                        <td><input type="text" name="file_name" placeholder="Give it a name (required)"/> </td>
                                     </tr>
                                     <tr>
                                         <td>File:</td>
-                                        <td><input type="file" name="file"  style="width:400px"   /></td>
+                                        <td><input type="file" name="file"  style="width:400px"   />Only *.xlsx Filetypes are supported</td>
                                     </tr>    
                                     <tr>
                                         <td>Upload:</td>
@@ -136,8 +132,7 @@ $j(document).ready(function() {
             </form>
          </div>   
     </div>
-    
-    
+
     <div style="margin-top:20px;">
         <form method="post" >
             <table class="widefat">
@@ -201,20 +196,52 @@ $j(document).ready(function() {
         
         </form>
     </div>
-    
-    <?php if(!empty($uploadResult['jsonData'])):?>
+
+
+
+	<?php
+		$user_info = wp_get_current_user();
+		if(empty($user_info->user_firstname )){
+			$show_username = ucfirst($user_info->user_login);
+		}else{
+			$show_username = $user_info->user_firstname;
+		}
+	?>
+
+	<div class="postbox" style="width:100%;margin-top:20px;">
+
+		<div class="inside">
+			<h3>Hey <?php echo $show_username;?>!</h3>
+			If you like this plugin rate it in the <a href="https://wordpress.org/support/view/plugin-reviews/wp-excel-cms" target="_blank">Plugin Directory</a>.
+			If you want to improve the code or found a bug, you contribute your thoughts on <a href="https://github.com/vincentschroeder/wp-excel-cms">Github</a>.
+			Don't forget to follow me on <a href="https://twitter.com/v_schroeder" target="_blank">Twitter</a>. Cheers' Vincent!
+		</div>
+	</div>
+
+
+
+	<?php if(!empty($uploadResult['jsonData'])):?>
   
         <h2>Import Preview</h2>
         <div style="overflow:scroll;height:300px;width:100%;font-size:11px;color:#fff;background-color:#000;">
-            <pre><?php  print_r(json_decode($uploadResult['jsonData'])); ?></pre>
+            <pre><?php
+	            $count = 1;
+	            foreach($uploadResult['jsonData'] as $data){
+		           echo "################ SHEET $count #########################";
+		            echo "\r\n";
+		            print_r( json_decode($data));
+		            $count++;
+	            }
+	            ?></pre>
         </div>
 
     <?php endif; ?>
     
-    <h2>Shortcode:</h2>
+    <h2>Shortcode Examples:</h2>
     <div style="background-color: #eaeaea;padding:5px;">
     <pre>
         [wp_excel_cms name="guestlist"]
+        [wp_excel_cms name="guestlist" sheet="2"]
     </pre>
     </div>    
     
@@ -222,7 +249,8 @@ $j(document).ready(function() {
     <h2>Theme Code:</h2>
     <div style="background-color: #eaeaea;padding:5px;">
     <pre>
-        $data = wp_excel_cms_get("guestlist");
+        //get the first sheet from guestlist.xlsx
+        $data = wp_excel_cms_get("guestlist", "1");
         foreach($guestlist as $guest){
           print_r($guest);             
         }

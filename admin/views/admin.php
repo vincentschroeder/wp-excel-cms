@@ -9,12 +9,9 @@
  * @author    Vincent Schroeder <info@webteilchen.de>
  * @license   GPL-2.0+
  * @link      http://webteilchen.de
- * @copyright 2013 Webteilchen GmbH
+ * @copyright 2015 Vincent Schroeder
  */
 ?>
-
-
-
 
 
 <div class="wrap">

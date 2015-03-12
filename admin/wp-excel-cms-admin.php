@@ -171,48 +171,36 @@ function create_excel_file($file_name){
     }
    
     require_once( plugin_dir_path( __FILE__ ) . '../includes/simplexlsx.class.php' );
-   
-    $xlsx = new SimpleXLSX( $_FILES['file']['tmp_name'] );
-    
-    #update_option('upload_path','wp-content/uploads/wp-excel-cms');
-    #$upload = wp_upload_bits($_FILES["file"]["name"], null, file_get_contents($_FILES["file"]["tmp_name"]));
-    #$uploaded_file_path_name = $upload['file'];
-    #update_option('upload_path','');  
 
-    $jsonData       = json_encode($xlsx->rows());
-    
-    $this->upload_dir     = wp_upload_dir();
-    
-    #$file_name = $this->upload_dir['path']."/test.json";
-    #$file_name = $uploaded_file_path_name.'.json';
-    
-    $this->upload_dir    = $this->upload_dir['basedir'].'/wp-excel-cms';
-    $file_name           = $this->upload_dir.'/'.$new_file_name.'.json';
-    
+	$xlsx = new SimpleXLSX( $_FILES['file']['tmp_name'] );
 
-    
-    
-    $fp = fopen($file_name,"wb");
-    fwrite($fp, $jsonData);
-    fclose($fp);
-    
-    
-    $file_ext = end(explode(".", $_FILES["file"]['name']));
-    
-    $file_name      = $this->upload_dir.'/'.$new_file_name.'.'.$file_ext;
-    $fp = fopen($file_name,"wb");
-    fwrite($fp, file_get_contents($_FILES["file"]["tmp_name"]));
-    fclose($fp);  
-    
+	$sheetNames = $xlsx->sheetNames();
+
+	if(is_array($sheetNames)){
+		foreach($sheetNames as $sheetId => $sheetName){
+			if($sheetId != 1){
+				$the_name = $new_file_name.'_sheet_'.$sheetId;
+			}else{
+				$the_name = $new_file_name;
+			}
+
+			$jsonData[$sheetId] = json_encode($xlsx->rows($sheetId));
+			$this->createJsonDataFile( $jsonData[$sheetId], $the_name );
+
+		}
+	}
+
+	$file_ext = end( explode( ".", $_FILES["file"]['name'] ) );
     
     $options = array(
         'slug'          => $new_file_name,
         'filename'      => $new_file_name.'.'.$file_ext,
         'json_file'     => $new_file_name.'.json',
-        'options_file'     => $new_file_name.'.options.json',
+        'options_file'  => $new_file_name.'.options.json',
         'file_ext'      => $file_ext,
         'filesize'      => filesize($_FILES["file"]["tmp_name"]),
         'upload_time'   => time(),
+	    'sheet_names'   => $sheetNames,
     );
     
     
@@ -228,6 +216,40 @@ function create_excel_file($file_name){
     );
     
 }
+
+	/**
+	 * @param $jsonData
+	 * @param $new_file_name
+	 *
+	 * @return array
+	 */
+	public function createJsonDataFile($jsonData, $new_file_name ) {
+
+
+		$this->upload_dir = wp_upload_dir();
+
+		#$file_name = $this->upload_dir['path']."/test.json";
+		#$file_name = $uploaded_file_path_name.'.json';
+
+		$this->upload_dir = $this->upload_dir['basedir'] . '/wp-excel-cms';
+		$file_name        = $this->upload_dir . '/' . $new_file_name . '.json';
+
+
+		$fp = fopen( $file_name, "wb" );
+		fwrite( $fp, $jsonData );
+		fclose( $fp );
+
+
+		$file_ext = end( explode( ".", $_FILES["file"]['name'] ) );
+
+		$file_name = $this->upload_dir . '/' . $new_file_name . '.' . $file_ext;
+		$fp        = fopen( $file_name, "wb" );
+		fwrite( $fp, file_get_contents( $_FILES["file"]["tmp_name"] ) );
+		fclose( $fp );
+
+		return true;
+	}
+
 
 
 function getFileList(){
@@ -260,7 +282,15 @@ function getFileList(){
         
         if(file_exists($options_file)){
             $options = (array) json_decode(file_get_contents($options_file));
-            
+
+	        if(isset($options['sheet_names'])){
+		        foreach($options['sheetNames'] as $sheetId => $sheetName){
+			        if($sheetId != 1){
+			            $res    = @unlink($this->upload_dir.'/'.$options['slug'].'_sheet_'.$sheetId.'.json');
+			        }
+		        }
+	        }
+
             $res    = @unlink($this->upload_dir.'/'.$options['json_file']);
             $res    = @unlink($this->upload_dir.'/'.$options['options_file']);
             $res    = @unlink($this->upload_dir.'/'.$options['filename']);
@@ -485,5 +515,7 @@ function getFileList(){
 	public function filter_method_name() {
 		// @TODO: Define your filter hook callback here
 	}
+
+
 
 }

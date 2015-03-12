@@ -3,8 +3,8 @@ Contributors: webteilchen
 Donate link: http://webteilchen.de
 Tags: excel, import, wp excel cms, xls, xlsx, json, excel import
 Requires at least: 3.5.1
-Tested up to: 3.8
-Stable tag: 1.0.2
+Tested up to: 4.1
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ Simple plugin to import excel files (.xlsx only) to Wordpress and use the data i
 
 For example, if you have a guestlist in excel and you want to show it in a special style on your website, you can easily upload the excel file in your admin interface an then use `wp_excel_cms_get("guestlist");` to get the structured data in your template.
 
-If you want to use the Table in your post or page, you can use the Shortcode [wp_excel_cms name="guestlist"] .
+If you want to use the Table in your post or page, you can use the Shortcode [wp_excel_cms name="guestlist" sheet="1"] .
 
 The string "guestlist" have to be replaced by your given excel file name.
 
@@ -87,6 +87,8 @@ I hope you enjoy this plugin. Give me feedback to improve it.
 = 1.0.2 =
 * New Feature: Shortcodes: [wp_excel_cms name="guestlist"]
 
+= 1.0.3 =
+* New Feature: You can now access sheets from your excel file: [wp_excel_cms name="guestlist" sheet="2"]
 
 
 == Donations ==
