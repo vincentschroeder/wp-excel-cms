@@ -298,7 +298,7 @@ function getFileList(){
 	        if(isset($options['sheet_names'])){
 		        foreach($options['sheetNames'] as $sheetId => $sheetName){
 			        if($sheetId != 1){
-			            $res    = @unlink($this->upload_dir.'/'.$options['slug'].'_sheet_'.$sheetId.'.json');
+			            $res    = @unlink($this->upload_dir.'/'.$options['title'].'_sheet_'.$sheetId.'.json');
 			        }
 		        }
 	        }
