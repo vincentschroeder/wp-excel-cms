@@ -296,9 +296,10 @@ function getFileList(){
             $options = (array) json_decode(file_get_contents($options_file));
 
 	        if(isset($options['sheet_names'])){
-		        foreach($options['sheetNames'] as $sheetId => $sheetName){
+		        foreach($options['sheet_names'] as $sheetId => $sheetName){
 			        if($sheetId != 1){
 			            $res    = @unlink($this->upload_dir.'/'.$options['title'].'_sheet_'.$sheetId.'.json');
+			            $res    = @unlink($this->upload_dir.'/'.$options['title'].'_sheet_'.$sheetId.'.xlsx');
 			        }
 		        }
 	        }
