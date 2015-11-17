@@ -193,7 +193,8 @@ function create_excel_file($file_name){
 	$file_ext = end( explode( ".", $_FILES["file"]['name'] ) );
     
     $options = array(
-        'slug'          => $new_file_name,
+        'slug'          => $this->generateSlugName($new_file_name),
+        'title'         => $new_file_name,
         'filename'      => $new_file_name.'.'.$file_ext,
         'json_file'     => $new_file_name.'.json',
         'options_file'  => $new_file_name.'.options.json',
@@ -216,6 +217,17 @@ function create_excel_file($file_name){
     );
     
 }
+	
+	/**
+	 * Generate correct slug for uploaded file
+	 * 
+	 * @param string $new_file_name 
+	 * 
+	 * @return string
+	 */
+	public function generateSlugName($new_file_name) {
+		return strtolower(str_replace(' ', '-', $new_file_name));
+	}
 
 	/**
 	 * @param $jsonData
