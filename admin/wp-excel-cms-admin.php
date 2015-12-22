@@ -193,8 +193,7 @@ function create_excel_file($file_name){
 	$file_ext = end( explode( ".", $_FILES["file"]['name'] ) );
     
     $options = array(
-        'slug'          => $this->generateSlugName($new_file_name),
-        'title'         => $new_file_name,
+        'slug'          => $new_file_name,
         'filename'      => $new_file_name.'.'.$file_ext,
         'json_file'     => $new_file_name.'.json',
         'options_file'  => $new_file_name.'.options.json',
@@ -217,17 +216,6 @@ function create_excel_file($file_name){
     );
     
 }
-	
-	/**
-	 * Generate correct slug for uploaded file
-	 * 
-	 * @param string $new_file_name 
-	 * 
-	 * @return string
-	 */
-	public function generateSlugName($new_file_name) {
-		return strtolower(str_replace(' ', '-', $new_file_name));
-	}
 
 	/**
 	 * @param $jsonData
@@ -296,10 +284,9 @@ function getFileList(){
             $options = (array) json_decode(file_get_contents($options_file));
 
 	        if(isset($options['sheet_names'])){
-		        foreach($options['sheet_names'] as $sheetId => $sheetName){
+		        foreach($options['sheetNames'] as $sheetId => $sheetName){
 			        if($sheetId != 1){
-			            $res    = @unlink($this->upload_dir.'/'.$options['title'].'_sheet_'.$sheetId.'.json');
-			            $res    = @unlink($this->upload_dir.'/'.$options['title'].'_sheet_'.$sheetId.'.xlsx');
+			            $res    = @unlink($this->upload_dir.'/'.$options['slug'].'_sheet_'.$sheetId.'.json');
 			        }
 		        }
 	        }

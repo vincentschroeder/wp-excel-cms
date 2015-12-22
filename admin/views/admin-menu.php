@@ -69,9 +69,8 @@ $j(document).ready(function() {
 
      $j( ".edit-entry" ).bind( "click", function() {
             var slug = $j(this).attr("data-slug");
-            var title = $j(this).attr("data-title");
             $clone.prependTo('#uploader-' + slug);
-            $j('.input_file_name').val(title);
+            $j('.input_file_name').val(slug);
     });
     
     $j( ".add-new-file" ).bind( "click", function() {
@@ -166,12 +165,12 @@ $j(document).ready(function() {
             
                <tr>
                  <td style="text-align: center;"><input type="checkbox" name="delete_slugs[]" value="<?php echo $file['slug'];?>" /></td>
-                 <td style="text-align: center;"><a href="#" class="edit-entry" data-title="<?php echo $file['title'];?>" data-slug="<?php echo $file['slug'];?>">Edit</a></td>
+                 <td style="text-align: center;"><a href="#" class="edit-entry" data-slug="<?php echo $file['slug'];?>">Edit</a></td>
                  <td class="row-title">
-                    <a href="<?php echo $this->upload_base_url.'/'.$file['filename']; ?>" target="_blank"><?php echo $file['title']; ?></a>
+                    <a href="<?php echo $this->upload_base_url.'/'.$file['filename']; ?>" target="_blank"><?php echo $file['slug']; ?></a>
                     <div id="uploader-<?php echo $file['slug'];?>"> </div>
                  </td>
-                 <td><code>[wp_excel_cms name="<?php echo $file['title'];?>"]</code></td><!--$data = wp_excel_cms_get("<?php echo $file['title'];?>");-->
+                 <td><code>[wp_excel_cms name="<?php echo $file['slug'];?>"]</code></td><!--$data = wp_excel_cms_get("<?php echo $file['slug'];?>");-->
                  <td><?php echo $this->formatSizeUnits($file['filesize']); ?></td>
                  <td><?php echo date(get_option('date_format'),$file['upload_time']); ?> | <?php echo date(get_option('time_format'),$file['upload_time']); ?></td>
              </tr>
