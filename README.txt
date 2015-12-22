@@ -8,9 +8,10 @@ Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Simple Plugin to import Excel files to Wordpress and use the Data in your theme.
+Simple Plugin to import Excel (xlsx) files to Wordpress and use the Data in your theme.
 No Database entries are created.
 
+* !!! Only *.xlsx files are supported !!! *
 
 == Description ==
 
