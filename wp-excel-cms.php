@@ -14,7 +14,7 @@
  * Plugin Name:       WP Excel CMS
  * Plugin URI:        http://webteilchen.de
  * Description:       Imports and manages content of Excel (*.xlsx) files into Wordpress and makes the data available for the theme or shortcodes.
- * Version:           1.0.4
+ * Version:           1.0.5
  * Author:            Vincent Schroeder
  * Author URI:        http://twitter.com/v_schroeder
  * Text Domain:       wp-excel-cms
